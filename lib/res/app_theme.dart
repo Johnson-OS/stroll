@@ -1,51 +1,37 @@
 
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:henronet/res/hive_keys.dart';
 
 class AppTheme extends ChangeNotifier {
 
-  bool isDarkTheme = false;
-
-  Color get white => Colors.white;
-  Color get black => isDarkTheme?Colors.white:const Color(0xFF0A0A0A);
-  Color get blackText => isDarkTheme?Colors.white:const Color(0xFF000033);
-
-  Color get primaryColor => const Color(0xFF175EB8);
-  Color get primaryLight => const Color(0xFF4392F9);
-  Color get primaryDark => const Color(0xFF01144E);
-  Color shimmerHighlight = Colors.grey.withOpacity(0.3);
-  Color shimmerBaseColor = Colors.grey.shade200.withOpacity(.2);
-  Color get notBlack => const Color(0x337070B8);
-  Color get blueGrey => const Color(0xFF9DB2CE);
-  Color get darkBorder =>  const Color(0x337070B8);
-  Color get lightGrey => const Color(0xFFF1F1F6);
-  Color get scaffoldColor => const Color(0xFFEFEFEF);
-  Color get grayText => const Color(0xFF8E8E8E);
+  Color get primaryColor => const Color(0xFF8B88EF);
+  Color get primaryLight => const Color(0xFFCCC8FF);
+  Color get cardColor => const Color(0xFF232A2E);
+  Color get navColor => const Color(0xFF0F1115);
+  Color shimmerHighlight = Colors.grey.withValues(alpha: 0.3);
+  Color shimmerBaseColor = Colors.grey.shade200.withValues(alpha:.2);
 
 
-  TextStyle get regularText => GoogleFonts.montserrat(
+  TextStyle get regularText => TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
+    fontFamily: 'Proxima-Nova'
   );
-
-  TextStyle get mediumText => GoogleFonts.montserrat(
+  TextStyle get mediumText => TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
+      fontFamily: 'Proxima-Nova'
   );
-
-  TextStyle get semiBoldText => GoogleFonts.montserrat(
+  TextStyle get semiBoldText => TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
+      fontFamily: 'Proxima-Nova'
   );
-
-  TextStyle get boldText => GoogleFonts.montserrat(
+  TextStyle get boldText => TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeight.w700,
+      fontFamily: 'Proxima-Nova'
   );
 
 
@@ -100,22 +86,6 @@ class AppTheme extends ChangeNotifier {
     )
   );
 
-  ButtonStyle get priBtnStyle2 => ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll(primaryColor),
-      shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r)
-          )
-      ),
-    minimumSize: WidgetStatePropertyAll(
-      Size(50.w, 53.h)
-    ),
-    maximumSize: WidgetStatePropertyAll(
-        Size(500.w, 53.h)
-    )
-  );
-
-
   ButtonStyle get outlinedBtn => ButtonStyle(
       shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
@@ -138,30 +108,9 @@ class AppTheme extends ChangeNotifier {
 
   AppTheme() {
 
-    isDarkTheme = Hive.box(HiveKeys.settings).get('theme', defaultValue: false);
-
-    notifyListeners();
+    //notifyListeners();
 
   }
 
-  void toggleTheme(BuildContext context, {bool enforced = false}) {
-    if (!enforced) {
-      var brightness = SchedulerBinding.instance.window.platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;
-
-      isDarkTheme = isDarkMode;
-
-      AdaptiveTheme.of(context).setSystem();
-    } else {
-      isDarkTheme = !isDarkTheme;
-      Hive.box('settings').put('theme', isDarkTheme);
-
-      isDarkTheme?AdaptiveTheme.of(context).setDark():AdaptiveTheme.of(context).setLight();
-    }
-
-    notifyListeners();
-
-
-  }
 
 }
